@@ -52,8 +52,12 @@ menu = {
 
 # 1. Set up order list. Order list will store a list of dictionaries for
 # menu item name, item price, and quantity ordered
-
-
+order_list={
+    "Name":[],
+    "Price":[],
+    "Quantity":[],
+    "Item Cost":[]
+}
 # Launch the store and present a greeting to the customer
 print("Welcome to the variety food truck.")
 
@@ -77,10 +81,9 @@ while place_order:
         menu_items[i] = key
         # Add 1 to the menu item number
         i += 1
-
+    print(menu_items)
     # Get the customer's input
     menu_category = input("Type menu number: ")
-
     # Check if the customer's input is a number
     if menu_category.isdigit():
         # Check if the customer's input is a valid option
@@ -118,83 +121,84 @@ while place_order:
                     }
                     i += 1
             # 2. Ask customer to input menu item number
-
-
+            menu_category_sub=input("Type menu number: ")
             # 3. Check if the customer typed a number
-
-                # Convert the menu selection to an integer
-
-
+            if menu_category_sub.isdigit():
+            # Convert the menu selection to an integer
+                menu_category_sub=int(menu_category_sub)
                 # 4. Check if the menu selection is in the menu items
-
+                if (menu_category_sub) in menu_items.keys():
                     # Store the item name as a variable
-
-
+                    menu_category_sub_name = menu_items[menu_category_sub]["Item name"]
+                    #Store it item price as a variable
+                    menu_category_sub_price=menu_items[menu_category_sub]["Price"]
+                    print(f"You selected {menu_category_sub_name}")
                     # Ask the customer for the quantity of the menu item
-
-
+                    menu_category_sub_quantity=input(f"How many {menu_category_sub_name} do you want? ")
                     # Check if the quantity is a number, default to 1 if not
-
-
-                    # Add the item name, price, and quantity to the order list
-
-
-                    # Tell the customer that their input isn't valid
-
-
+                    if menu_category_sub_quantity.isdigit():
+                        # Add the item name, price, and quantity to the order list
+                        order_list["Name"].append(menu_category_sub_name)
+                        order_list["Price"].append(menu_category_sub_price)
+                        order_list["Quantity"].append(menu_category_sub_quantity)                       
+                    else:
+                        # Tell the customer that their input isn't valid 
+                        print(f"The quantity of {menu_category_sub_name} was not valid.  As a result, your quantity is assumed to be 1.")
+                        menu_category_sub_quantity=1 #default to 1
+                        # Add the item name, price, and quantity to the order list
+                        order_list["Name"].append(menu_category_sub_name)
+                        order_list["Price"].append(menu_category_sub_price)
+                        order_list["Quantity"].append(menu_category_sub_quantity)
+                    print(order_list)          
                 # Tell the customer they didn't select a menu option
-
+                else:
+                    print(f"{menu_category_sub_name} is not a valid member of {menu_category_name}")
         else:
             # Tell the customer they didn't select a menu option
             print(f"{menu_category} was not a menu option.")
     else:
         # Tell the customer they didn't select a number
         print("You didn't select a number.")
+        break
+    # Ask the customer if they would like to order anything else
+    keep_ordering = input("Would you like to keep ordering? (Y)es or (N)o ").lower()
+    # 5. Check the customer's input
+    if(keep_ordering=="y"):
+    # Keep ordering
+        place_order = True
+    else:
+    # Exit the keep ordering question loop 
+        place_order = False
 
-    while True:
-        # Ask the customer if they would like to order anything else
-        keep_ordering = input("Would you like to keep ordering? (Y)es or (N)o ")
-
-        # 5. Check the customer's input
-
-                # Keep ordering
-
-                # Exit the keep ordering question loop
-
-                # Complete the order
-
-                # Since the customer decided to stop ordering, thank them for
-                # their order
-
-                # Exit the keep ordering question loop
-
-
-                # Tell the customer to try again
-
-
+# Complete the order
+# Since the customer decided to stop ordering, thank them for
+# their order
 # Print out the customer's order
-print("This is what we are preparing for you.\n")
-
-# Uncomment the following line to check the structure of the order
-#print(order)
-
-print("Item name                 | Price  | Quantity")
-print("--------------------------|--------|----------")
-
-# 6. Loop through the items in the customer's order
-
-    # 7. Store the dictionary items as variables
-
-
-    # 8. Calculate the number of spaces for formatted printing
-
-
-    # 9. Create space strings
-
-
-    # 10. Print the item name, price, and quantity
-
+print("\nThank you for your order.  This is what we are preparing for you.\n")
 
 # 11. Calculate the cost of the order using list comprehension
-# Multiply the price by quantity for each item in the order list, then sum()
+# Multiply the price by quantity for each item in the order list,
+item_cost_lc=[order_list["Price"][j]*int(order_list["Quantity"][j]) for j in range(len(order_list["Name"]))]
+order_list["Item Cost"]=item_cost_lc
+# Uncomment the following line to check the structure of the order
+print(order_list,"\n")
+
+print("Item name                 | Price  | Quantity | Item Cost")
+print("--------------------------|--------|----------|-----------")
+# 6. Loop through the items in the customer's order
+# 7. Store the dictionary items as variables
+for y in range(len(order_list["Name"])):
+     # 8. Calculate the number of spaces for formatted printing
+    num_name_spaces=26-len(order_list["Name"][y])
+    num_price_spaces=6-len(str(order_list["Price"][y]))
+    num_quantity_spaces=9-len(str(order_list["Quantity"][y]))
+    # 9. Create space strings
+    spaces_name=" " * num_name_spaces
+    spaces_price=" " * num_price_spaces
+    spaces_quantity=" " * num_quantity_spaces
+    # 10. Print the item name, price, and quantity, and item cost
+    print(f"{order_list['Name'][y]}{spaces_name}| ${order_list['Price'][y]}{spaces_price}| {order_list['Quantity'][y]}{spaces_quantity}| ${order_list['Item Cost'][y]}")
+#print out total for whole order
 # and print the prices.
+print(f"\n\nOrder Total                                     ${sum(order_list['Item Cost'])}\n\n\nWe strive for excellent service at variety food truck.\nPlease go to www.varietyfoodtruck.com to fill out a\nbrief survey and receive a coupon for a free drink on your\nnext visit.\n\nThank you and have a great day!")
+   
