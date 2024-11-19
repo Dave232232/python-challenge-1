@@ -151,15 +151,14 @@ while place_order:
                         order_list["Quantity"].append(menu_category_sub_quantity)
                     print(order_list)          
                 # Tell the customer they didn't select a menu option
-                else:
-                    print(f"{menu_category_sub_name} is not a valid member of {menu_category_name}")
+            else:
+                  print(f"You did not input a valid member of {menu_category_name}")
         else:
             # Tell the customer they didn't select a menu option
             print(f"{menu_category} was not a menu option.")
     else:
         # Tell the customer they didn't select a number
         print("You didn't select a number.")
-        break
     # Ask the customer if they would like to order anything else
     keep_ordering = input("Would you like to keep ordering? (Y)es or (N)o ").lower()
     # 5. Check the customer's input
