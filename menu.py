@@ -1,7 +1,7 @@
 # Menu dictionary
 #imports
 import random
-from datetime import date  #from AI overview in google search.  Also used on line 211
+from datetime import datetime  #from AI overview in google search.  Also used on line 211
 #code
 menu = {
     "Snacks": {
@@ -149,8 +149,11 @@ while place_order:
                         # Add the item name, price, and quantity to the order list
                         order_list.append({"Item name":menu_selection_sub_name,
                                           "Price":float(menu_selection_sub_price),
-                                          "Quantity":int(quantity)})   
-                # Tell the customer they didn't select a menu option
+                                          "Quantity":int(quantity)}) 
+                else:
+                      # Tell the customer they didn't select a menu option
+                      print(f"You did not input a valid member of {menu_selection_name}") 
+            # Tell the customer they didn't select a menu option
             else:
                   print(f"You did not input a valid member of {menu_selection_name}")
         else:
@@ -163,15 +166,11 @@ while place_order:
     keep_ordering = input("Would you like to keep ordering? (Y)es or (N)o ")
     # 5. Check the customer's input
     #converting the case of keep ordering before the check as indicated in the instructions but why 
-    match(keep_ordering):
-        case "y" | "Y":
-            keep_ordering.lower()
-            print(keep_ordering)
+    match(keep_ordering.lower()):
+        case "y":
             #continue to ask for more items
             place_order= True
-        case "n" | "N":
-            keep_ordering.lower()
-            print(keep_ordering)
+        case "n":
             #exit the the ordering question loop
             place_order=False
         case _:
@@ -182,13 +181,11 @@ while place_order:
                             print("Please try again using Y for \"yes\" or N for \"No\"")
                             keep_ordering = input("Would you like to keep ordering? (Y)es or (N)o ")
                             place_order=True
-            match(keep_ordering):
-                case "y" | "Y":
-                    keep_ordering.lower()
+            match(keep_ordering.lower()):
+                case "y":
                     #continue to ask for more items
                     place_order= True
-                case "n" | "N":
-                    keep_ordering.lower()
+                case "n":
                     #exit the the ordering question loop
                     place_order=False
                 case _:
@@ -207,7 +204,7 @@ item_cost_lc=[order_list[j]["Price"]*order_list[j]["Quantity"] for j in range(le
 # Uncomment the following line to check the structure of the order
 print(order_list,"\n")
 
-print(f"variety food truck\nOrder #: {random.randint(1,1000)}\nDate: {date.today()}\n")
+print(f"variety food truck\nOrder #: {random.randint(1,1000)}\nDate: {datetime.now()}\n")
 print("Item name                 | Price  | Quantity | Item Cost")
 print("--------------------------|--------|----------|-----------")
 # 6. Loop through the items in the customer's order
@@ -226,8 +223,8 @@ for y in range(len(order_list)):
     spaces_price=" " * num_price_spaces
     spaces_quantity=" " * num_quantity_spaces
     # 10. Print the item name, price, and quantity, and item cost
-    print(f"{item_name}{spaces_name}| ${price}{spaces_price}| {quantity}{spaces_quantity}| ${item_cost_lc[y]}")
+    print(f"{item_name}{spaces_name}| ${price}{spaces_price}| {quantity}{spaces_quantity}| ${item_cost_lc[y]:.2f}")
 #print out total for whole order
 # and print the prices.  Sum done below, list comprehension on line 187 so could add onto receipt.
-print(f"\n\nOrder Total                                     ${sum(item_cost_lc)}\n\n\nWe strive for excellent service at variety food truck.\nPlease fill out our survey and receive a coupon for a\nfree drink on your next order by:\nGoing to varietyfoodtruck.com/survey and entering your\n     order number at the top of this receipt\nOR scanning the QR code on this receipt\nOR scanning the QR code on the front of the truck by the\n    menu and entering your order number at the top this\n    receipt.\n\nThank you and have a great day!")
+print(f"\n\nOrder Total                                     ${sum(item_cost_lc):.2f}\n\n\nWe strive for excellent service at variety food truck.\nPlease fill out our survey and receive a coupon for a\nfree drink on your next order by:\nGoing to varietyfoodtruck.com/survey and entering your\n     order number at the top of this receipt\nOR scanning the QR code on this receipt\nOR scanning the QR code on the front of the truck by the\n    menu and entering your order number at the top this\n    receipt.\n\nThank you and have a great day!")
    
